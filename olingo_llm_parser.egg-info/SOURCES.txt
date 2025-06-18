@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+examples/basic_usage.py
+olingo_llm_parser/__init__.py
+olingo_llm_parser/parser.py
+olingo_llm_parser.egg-info/PKG-INFO
+olingo_llm_parser.egg-info/SOURCES.txt
+olingo_llm_parser.egg-info/dependency_links.txt
+olingo_llm_parser.egg-info/requires.txt
+olingo_llm_parser.egg-info/top_level.txt
+tests/test_parser.py

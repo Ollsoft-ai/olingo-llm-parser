@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include MANIFEST.in
+include pyproject.toml
+recursive-include olingo_llm_parser *.py
+recursive-include examples *.py *.jinja *.json
+recursive-include tests *.py
+global-exclude *.pyc
+global-exclude __pycache__ 
