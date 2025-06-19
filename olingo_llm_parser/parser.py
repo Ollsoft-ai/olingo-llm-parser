@@ -226,7 +226,10 @@ def parse_template_and_schema(
     response_format = None
     if schema is not None:
         schema_dict = _load_schema(schema)
-        response_format = {"type": "json_schema", "json_schema": schema_dict, "strict": True}
+        response_format = {
+            "type": "json_schema",
+            "json_schema": {"schema": schema_dict, "strict": True},
+        }
 
     # Add the schema to variables so it's accessible in the template
     enhanced_variables = variables.copy()
