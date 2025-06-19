@@ -132,7 +132,8 @@ Schema: {{ json_schema }}
             assert len(messages) == 1
             assert "{'type': 'string'}" in str(messages[0]["content"])
             assert response_format["type"] == "json_schema"
-            assert response_format["json_schema"] == schema
+            assert response_format["json_schema"]["schema"] == schema
+            assert response_format["json_schema"]["strict"] == True
         finally:
             Path(template_path).unlink()
             Path(schema_path).unlink()
