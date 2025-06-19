@@ -95,8 +95,8 @@ class TestSchemaLoader:
         try:
             response_format = load_json_schema(temp_path)
             assert response_format["type"] == "json_schema"
-            assert response_format["json_schema"] == schema
-            assert response_format["strict"] == True
+            assert response_format["json_schema"]["schema"] == schema
+            assert response_format["json_schema"]["strict"] == True
         finally:
             Path(temp_path).unlink()
 

@@ -290,10 +290,35 @@ isort .
 ### 📦 Building and Publishing New Versions
 
 #### 1. **Update Version Number**
-Edit the version in `pyproject.toml`:
-```toml
-[project]
-version = "0.1.2"  # Increment according to semantic versioning
+
+**🎯 Recommended: Automated Version Bumping**
+
+We use `bump2version` for automated version management:
+
+```bash
+# Install bump2version (one-time setup)
+pip install bump2version
+
+# Bump patch version (0.1.2 → 0.1.3)
+bump2version patch
+
+# Bump minor version (0.1.3 → 0.2.0)  
+bump2version minor
+
+# Bump major version (0.2.0 → 1.0.0)
+bump2version major
+```
+
+This automatically:
+- ✅ Updates version in `olingo_llm_parser/__init__.py`
+- ✅ Creates a git commit with the version bump
+- ✅ Creates a git tag (e.g., `v0.1.3`)
+- ✅ Single source of truth (version only in `__init__.py`)
+
+**Manual Alternative:**
+If you prefer manual updates, just edit the version in `olingo_llm_parser/__init__.py`:
+```python
+__version__ = "0.1.3"  # Update this line only
 ```
 
 **Semantic Versioning Guidelines:**

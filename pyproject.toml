@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olingo-llm-parser"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Elegant Jinja2-based chat template parser for AI applications"
 readme = "README.md"
 license = {text = "MIT"}
@@ -58,6 +58,9 @@ Repository = "https://github.com/ollsoft-ai/olingo-llm-parser"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["olingo_llm_parser*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "olingo_llm_parser.__version__"}
 
 [tool.black]
 line-length = 100

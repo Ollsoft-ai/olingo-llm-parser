@@ -186,7 +186,10 @@ def load_json_schema(schema_path: str) -> Dict[str, Any]:
         with open(schema_path, "r", encoding="utf-8") as f:
             schema = json.load(f)
 
-        return {"type": "json_schema", "json_schema": schema, "strict": True}
+        return {
+            "type": "json_schema",
+            "json_schema": {"schema": schema, "strict": True},
+        }
 
     except json.JSONDecodeError as e:
         raise json.JSONDecodeError(

@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: olingo-llm-parser
-Version: 0.1.1
+Version: 0.1.2
 Summary: Elegant Jinja2-based chat template parser for AI applications
 Author-email: Ollsoft Team <info@ollsoft.ai>
 Maintainer-email: Ollsoft Team <info@ollsoft.ai>
@@ -371,15 +371,6 @@ This creates two files in `dist/`:
 - `olingo-llm-parser-X.X.X.tar.gz` (source distribution)
 - `olingo_llm_parser-X.X.X-py3-none-any.whl` (wheel distribution)
 
-#### 6. **Test Upload to TestPyPI (Recommended)**
-```bash
-# Upload to TestPyPI first
-python -m twine upload --repository testpypi dist/*
-
-# Test install from TestPyPI
-pip install --index-url https://test.pypi.org/simple/ olingo-llm-parser==X.X.X
-```
-
 #### 7. **Upload to PyPI**
 Once verified on TestPyPI:
 ```bash
@@ -410,24 +401,6 @@ password = pypi-your-token-here
 [testpypi]
 username = __token__
 password = pypi-your-testpypi-token-here
-```
-
-### 🚀 **Quick Publish Script**
-Save this as `publish.sh` (Linux/Mac) or `publish.ps1` (Windows):
-
-```bash
-#!/bin/bash
-# Run tests
-python -m pytest -v || exit 1
-
-# Clean and build
-rm -rf dist/ build/ *.egg-info/
-python -m build
-
-# Upload to PyPI
-python -m twine upload dist/*
-
-echo "✅ Published! Check https://pypi.org/project/olingo-llm-parser/"
 ```
 
 ## 📄 License
