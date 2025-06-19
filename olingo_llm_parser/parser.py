@@ -188,7 +188,7 @@ def load_json_schema(schema_path: str) -> Dict[str, Any]:
 
         return {
             "type": "json_schema",
-            "json_schema": {"schema": schema, "strict": True},
+            "json_schema": {"schema": schema, "strict": True, "name": "schema"},
         }
 
     except json.JSONDecodeError as e:
@@ -228,7 +228,7 @@ def parse_template_and_schema(
         schema_dict = _load_schema(schema)
         response_format = {
             "type": "json_schema",
-            "json_schema": {"schema": schema_dict, "strict": True},
+            "json_schema": {"schema": schema_dict, "strict": True, "name": "schema"},
         }
 
     # Add the schema to variables so it's accessible in the template
