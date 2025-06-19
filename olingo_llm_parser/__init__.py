@@ -8,7 +8,7 @@ suitable for AI chat APIs like OpenAI, Anthropic, etc.
 
 from .parser import ChatExtension, load_json_schema, parse_chat_template, parse_template_and_schema
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __author__ = "Ollsoft Team"
 __email__ = "info@ollsoft.ai"
 __description__ = "Elegant Jinja2-based chat template parser for AI applications"
