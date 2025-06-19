@@ -93,12 +93,25 @@ Now answer: {{ final_question }}
 ### With JSON Schema
 
 ```python
-from olingo_llm_parser import parse_chat_and_schema
+from olingo_llm_parser import parse_template_and_schema
 
-# Parse both template and schema
-messages, response_format = parse_chat_and_schema(
-    template_path="template.jinja",
-    schema_path="response_schema.json",
+# Parse both template and schema from files
+messages, response_format = parse_template_and_schema(
+    template="template.jinja",
+    schema="response_schema.json",
+    variables={"topic": "AI"}
+)
+
+# Or use strings/dictionaries directly
+template_string = """{% chat role="system" %}
+You are an expert on {{ topic }}.
+{% endchat %}"""
+
+schema_dict = {"type": "object", "properties": {"answer": {"type": "string"}}}
+
+messages, response_format = parse_template_and_schema(
+    template=template_string,
+    schema=schema_dict,
     variables={"topic": "AI"}
 )
 
@@ -125,16 +138,39 @@ Generate data about {{ topic }}.
 {% endchat %}
 ```
 
+### Flexible Input Types
+
+The new `parse_template_and_schema` function supports multiple input formats:
+
+```python
+from olingo_llm_parser import parse_template_and_schema
+
+# Template as file path, schema as file path  
+messages, format = parse_template_and_schema("template.jinja", "schema.json")
+
+# Template as string, schema as dictionary
+template_str = """{% chat role="user" %}Hello!{% endchat %}"""
+schema_dict = {"type": "string"}
+messages, format = parse_template_and_schema(template_str, schema_dict)
+
+# Template as string, schema as JSON string
+schema_json = '{"type": "object", "properties": {"name": {"type": "string"}}}'
+messages, format = parse_template_and_schema(template_str, schema_json)
+
+# Template only (no schema)
+messages, format = parse_template_and_schema(template_str)  # format will be None
+```
+
 ## 📚 API Reference
 
 ### Core Functions
 
-#### `parse_chat_template(template_path, variables=None)`
+#### `parse_chat_template(template, variables=None)`
 
 Parse a Jinja2 template containing `{% chat %}` blocks.
 
 **Parameters:**
-- `template_path` (str): Path to your .jinja template file
+- `template` (str|Path): Either a file path or template string content
 - `variables` (dict, optional): Variables to pass to the template
 
 **Returns:**
@@ -150,13 +186,13 @@ Load a JSON schema and format it for AI APIs.
 **Returns:**
 - `Dict`: Formatted response_format for AI APIs
 
-#### `parse_chat_and_schema(template_path, schema_path=None, variables=None)`
+#### `parse_template_and_schema(template, schema=None, variables=None)`
 
-Parse both template and schema together.
+Parse both template and schema together with flexible input types.
 
 **Parameters:**
-- `template_path` (str): Path to your .jinja template file  
-- `schema_path` (str, optional): Path to your JSON schema file
+- `template` (str|Path): Either a file path or template string content
+- `schema` (str|Path|Dict, optional): Either a file path, JSON string, or schema dictionary
 - `variables` (dict, optional): Variables to pass to the template
 
 **Returns:**
@@ -251,26 +287,89 @@ black .
 isort .
 ```
 
+### 📦 Building and Publishing New Versions
+
+#### 1. **Update Version Number**
+Edit the version in `pyproject.toml`:
+```toml
+[project]
+version = "0.1.2"  # Increment according to semantic versioning
+```
+
+**Semantic Versioning Guidelines:**
+- **Patch** (0.1.1 → 0.1.2): Bug fixes, no breaking changes
+- **Minor** (0.1.2 → 0.2.0): New features, backward compatible  
+- **Major** (0.2.0 → 1.0.0): Breaking changes
+
+#### 2. **Install Build Tools**
+```bash
+pip install build twine
+```
+
+#### 3. **Run Tests**
+Make sure all tests pass before publishing:
+```bash
+python -m pytest -v
+```
+
+#### 4. **Clean Previous Builds**
+```bash
+# PowerShell (Windows)
+Remove-Item -Recurse -Force dist, build, *.egg-info -ErrorAction SilentlyContinue
+
+# Bash (Linux/Mac)
+rm -rf dist/ build/ *.egg-info/
+```
+
+#### 5. **Build the Package**
+```bash
+python -m build
+```
+
+This creates two files in `dist/`:
+- `olingo-llm-parser-X.X.X.tar.gz` (source distribution)
+- `olingo_llm_parser-X.X.X-py3-none-any.whl` (wheel distribution)
+
+#### 7. **Upload to PyPI**
+Once verified on TestPyPI:
+```bash
+python -m twine upload dist/*
+```
+
+#### 8. **Tag the Release**
+```bash
+git add .
+git commit -m "chore: bump version to X.X.X"
+git tag vX.X.X
+git push origin main --tags
+```
+
+### 🔐 **PyPI Authentication**
+
+**Option A: API Token (Recommended)**
+1. Go to [PyPI Account Settings](https://pypi.org/manage/account/)
+2. Create an API token
+3. Use `__token__` as username and your token as password
+
+**Option B: Configure ~/.pypirc**
+```ini
+[pypi]
+username = __token__
+password = pypi-your-token-here
+
+[testpypi]
+username = __token__
+password = pypi-your-testpypi-token-here
+```
+
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
-
-## 🌟 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-## 📞 Support
-
-- 📖 [Documentation](https://olingo-llm-parser.readthedocs.io)
-- 🐛 [Issue Tracker](https://github.com/ollsoft-ai/olingo-llm-parser/issues)
-- 💬 [Discussions](https://github.com/ollsoft-ai/olingo-llm-parser/discussions)
 
 ---
 
 <div align="center">
 
 **Made with ❤️ by the Ollsoft Team**
-
-[⭐ Star us on GitHub](https://github.com/ollsoft-ai/olingo-llm-parser) • [📦 PyPI Package](https://pypi.org/project/olingo-llm-parser/)
 
 </div> 
